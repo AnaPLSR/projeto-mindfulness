@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Mindfulness - Mente Sã, Coração Calmo</title>
+    <style>
+        /* Estilos CSS fornecidos anteriormente */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #87ceeb 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 3px solid #ffd700;
+        }
+        .header h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .header h2 {
+            color: #2a5298;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1e3c72;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #ffed4e, #ffd700);
+        }
+        .nav-btn.active {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+            border-left: 6px solid #ffd700;
+        }
+        .section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section h3 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffd700;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .card {
+            background: linear-gradient(135deg, #f8f9ff, #e6f3ff);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #87ceeb;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(30, 60, 114, 0.2);
+        }
+        .card h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .objectives-list {
+            list-style: none;
+            padding: 0;
+        }
+        .objectives-list li {
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            color: #1e3c72;
+            font-weight: 500;
+            position: relative;
+            padding-left: 50px;
+        }
+        .objectives-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 15px;
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.2em;
+        }
+        .school-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .school-table th {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        .school-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1em;
+        }
+        .school-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+        .school-table tr:last-child td {
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #1e3c72, #ffd700, #87ceeb);
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            width: 45%;
+        }
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+            padding-right: 30px;
+        }
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+            padding-left: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border: 4px solid #1e3c72;
+            border-radius: 50%;
+            top: 20px;
+        }
+        .timeline-item:nth-child(odd)::before {
+            right: -10px;
+        }
+        .timeline-item:nth-child(even)::before {
+            left: -10px;
+        }
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #87ceeb;
+        }
+        .timeline-content h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        .practices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .practice-item {
+            background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .practice-item:hover {
+            transform: scale(1.05);
+        }
+        .evaluation-section {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 3px solid #87ceeb;
+        }
+        .future-possibilities {
+            background: linear-gradient(135deg, #fff9e6, #fffacd);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 3px solid #ffd700;
+        }
+        .future-possibilities h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+        .breathe-animation {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #87ceeb, #1e3c72);
+            border-radius: 50%;
+            margin: 20px auto;
+            animation: breathe 3s ease-in-out infinite;
+            opacity: 0.8;
+        }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        /* Novos estilos para imagens na secção de Metodologia */
+        .methodology-image-container {
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+        .methodology-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            margin: 15px auto; /* Centraliza a imagem e adiciona espaço */
+            border: 2px solid #2a5298;
+            display: block; /* Garante que a margem auto funcione */
+        }
+        .methodology-image-container p {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before { display: none; }
+            .timeline-item {
+                width: 100% !important;
+                left: 0 !important;
+                text-align: left !important;
+                padding: 0 !important;
+            }
+            .timeline-item::before { display: none; }
+            .navigation { gap: 10px; }
+            .nav-btn { padding: 10px 15px; font-size: 0.9em; }
+            .header h1 { font-size: 2em; }
+            .header h2 { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧘‍♀️ Projeto Mindfulness 🧘‍♂️</h1>
+            <h2>"Mente Sã, Coração Calmo"</h2>
+            <p><strong>Agrupamento de Escolas Cego do Maio</strong></p>
+            <p>Mindfulness no 1.º Ciclo do Ensino Básico</p>
+            <div class="breathe-animation"></div>
+        </div>
+        <nav class="navigation">
+            <button class="nav-btn active" onclick="showSection('objetivos', event)">Objetivos</button>
+            <button class="nav-btn" onclick="showSection('escolas', event)">Escolas</button>
+            <button class="nav-btn" onclick="showSection('estrategia', event)">Estratégia</button>
+            <button class="nav-btn" onclick="showSection('metodologia', event)">Metodologia</button>
+            <button class="nav-btn" onclick="showSection('cronograma', event)">Cronograma</button>
+            <button class="nav-btn" onclick="showSection('avaliacao', event)">Avaliação</button>
+            <button class="nav-btn" onclick="showSection('futuro', event)">Futuro</button>
+        </nav>
+        <section id="objetivos" class="section active">
+            <h3>🎯 Objetivos Gerais</h3>
+            <ul class="objectives-list">
+                <li>Desenvolver a **autorregulação emocional** e a **atenção plena** nos alunos do 1.º ciclo</li>
+                <li>Promover o **bem-estar emocional** e a melhoria do clima escolar</li>
+                <li>Capacitar os docentes para a integração de práticas de mindfulness na rotina da sala de aula</li>
+                <li>Criar um ambiente de aprendizagem mais **calmo e focado**</li>
+                <li>Desenvolver competências de **gestão do stress e ansiedade**</li>
+            </ul>
+        </section>
+        <section id="escolas" class="section">
+            <h3>🏫 Escolas Envolvidas</h3>
+            <table class="school-table">
+                <thead>
+                    <tr>
+                        <th>Escola</th>
+                        <th>N.º de Turmas</th>
+                        <th>Localização</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>EB1 Século</td>
+                        <td>8</td>
+                        <td>Século</td>
+                    </tr>
+                    <tr>
+                        <td>EB1 Argivai</td>
+                        <td>4</td>
+                        <td>Argivai</td>
+                    </tr>
+                    <tr>
+                        <td>EB1 Giesteira</td>
+                        <td>4</td>
+                        <td>Giesteira</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TOTAL</strong></td>
+                        <td><strong>16 turmas</strong></td>
+                        <td><strong>3 escolas</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="grid">
+                <div class="card">
+                    <h4>👨‍🏫 Recursos Humanos</h4>
+                    <p><strong>Facilitadora de Mindfulness:</strong> 2 horas semanais para deslocação e intervenções presenciais</p>
+                    <p><strong>Docentes das turmas:</strong> Papel ativo na implementação das práticas no quotidiano escolar</p>
+                    <p><strong>Coordenação do projeto:</strong> Articulação, monitorização e apoio aos docentes</p>
+                </div>
+            </div>
+        </section>
+        <section id="estrategia" class="section">
+            <h3>🗺️ Estratégia de Intervenção</h3>
+                        <div class="grid">
+                <div class="card">
+                    <h4>📚 Fase 1 - Formação Inicial</h4>
+                    <p><strong>Período:</strong> Setembro-Outubro</p>
+                    <ul>
+                        <li>Sessão presencial de capacitação para todos os professores</li>
+                        <li>Introdução ao mindfulness em contexto educativo</li>
+                        <li>Práticas simples adaptadas às idades dos alunos</li>
+                        <li>Estratégias de regulação emocional em sala de aula</li>
+                        <li>Entrega de "kit de práticas" completo</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🔄 Fase 2 - Acompanhamento Rotativo</h4>
+                    <p><strong>Período:</strong> Outubro a Junho</p>
+                    <ul>
+                        <li>Visitas semanais por rotação entre escolas</li>
+                        <li>Sessões presenciais de 20-25 minutos por turma</li>
+                        <li>Todas as turmas abrangidas pelo menos uma vez</li>
+                        <li>Apoio direto da facilitadora</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🌱 Fase 3 - Continuidade</h4>
+                    <p><strong>Período:</strong> Contínuo</p>
+                    <ul>
+                        <li>Práticas breves entre visitas (1-2x por semana)</li>
+                        <li>Atividades adaptadas ao contexto da turma</li>
+                        <li>Integração na rotina escolar</li>
+                        <li>Apoio contínuo através de materiais e orientação</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section id="metodologia" class="section">
+            <h3>🧘 Metodologia: Exemplos de Práticas</h3>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px; color: #1e3c72;"><strong>Práticas de curta duração (3 a 10 minutos)</strong></p>
+
+            <div class="practices-grid">
+                <div class="practice-item">
+                    <h4>🫁 Respiração Consciente</h4>
+                    <p>Técnicas simples de respiração para acalmar e focar, como a **Respiração da Flor e da Vela**.</p>
+                </div>
+                <div class="practice-item">
+                    <h4>👂 Observação dos Sons</h4>
+                    <p>Escuta atenta do ambiente e do próprio corpo (ex: **O Sino da Atenção**).</p>
+                </div>
+                <div class="practice-item">
+                    <h4>🤸 Movimentos Conscientes</h4>
+                    <p>Exercícios em pé ou sentados para conexão corpo-mente (ex: **A Árvore Forte**).</p>
+                </div>
+                <div class="practice-item">
+                    <h4>🧘 Meditações Guiadas</h4>
+                    <p>Pequenas sessões adaptadas à faixa etária (ex: **O Scan Corporal**).</p>
+                </div>
+                <div class="practice-item">
+                    <h4>📚 Histórias Mindfulness</h4>
+                    <p>Narrativas curtas com mensagens de atenção plena.</p>
+                </div>
+                <div class="practice-item">
+                    <h4>🔔 Objetos de Foco</h4>
+                    <p>Utilização de elementos visuais para a concentração (ex: **O Frasco da Calma**).</p>
+                </div>
+            </div>
+
+            <div class="methodology-image-container">
+                <img src="http://googleusercontent.com/image_generation_content/1" alt="Crianças a fazer o exercício da flor e da vela">
+                <p><sub>*Prática da Respiração da Flor e da Vela*</sub></p>
+                <img src="http://googleusercontent.com/image_generation_content/2" alt="Criança a observar um frasco da calma">
+                <p><sub>*Observando o Frasco da Calma*</sub></p>
+                <img src="http://googleusercontent.com/image_generation_content/3" alt="Criança a fazer scan corporal">
+                <p><sub>*Prática do Scan Corporal*</sub></p>
+                <img src="http://googleusercontent.com/image_generation_content/4" alt="Criança a fazer o abraço da borboleta">
+                <p><sub>*Auto-regulação com o Abraço da Borboleta*</sub></p>
+            </div>
+        </section>
+        <section id="cronograma" class="section">
+            <h3>📅 Cronograma</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Setembro</h4>
+                        <p>Planeamento e articulação inicial com as escolas. Preparação de materiais e definição de calendários.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Outubro</h4>
+                        <p>Formação prática para todos os docentes. Início das visitas rotativas da facilitadora.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Novembro - Maio</h4>
+                        <p>Práticas semanais com os docentes. Continuidade das visitas rotativas e apoio contínuo.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Junho</h4>
+                        <p>Avaliação global e partilha de resultados. Reunião de balanço final com representação de cada escola.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="avaliacao" class="section">
+            <h3>📊 Avaliação e Monitorização</h3>
+                        <div class="evaluation-section">
+                <h4>📝 Instrumentos de Avaliação</h4>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Registos da Facilitadora</h4>
+                        <ul>
+                            <li>Data das sessões</li>
+                            <li>Turma intervencionada</li>
+                            <li>Tipo de prática realizada</li>
+                            <li>Observações comportamentais</li>
+                            <li>Resposta dos alunos</li>
+                        </ul>
+                    </div>
+                                        <div class="card">
+                        <h4>Questionários</h4>
+                        <ul>
+                            <li>Questionário final para docentes</li>
+                            <li>Versão adaptada para alunos</li>
+                            <li>Aplicação em junho</li>
+                            <li>Análise de impacto e satisfação</li>
+                        </ul>
+                    </div>
+                </div>
+                                <div style="text-align: center; margin: 20px 0;">
+                    <h4>🎯 Indicadores de Sucesso</h4>
+                    <p>✅ Melhoria do clima de sala de aula<br>
+                    ✅ Redução de comportamentos disruptivos<br>
+                    ✅ Aumento da capacidade de concentração<br>
+                    ✅ Maior regulação emocional dos alunos<br>
+                    ✅ Satisfação dos docentes com as práticas</p>
+                </div>
+            </div>
+        </section>
+        <section id="futuro" class="section">
+            <h3>🚀 Possibilidades Futuras</h3>
+                        <div class="future-possibilities">
+                <h4>🌟 Sustentabilidade e Expansão</h4>
+                <div class="grid">
+                    <div class="card">
+                        <h4>📋 Integração Curricular</h4>
+                        <p>Integração da prática de mindfulness nas atividades letivas.</p>
+                    </div>
+                                        <div class="card">
+                        <h4>🎓 Formação Acreditada</h4>
+                        <p>Formação acreditada para docentes em parceria com CFAE (Centro de Formação de Associação de Escolas).</p>
+                    </div>
+                                        <div class="card">
+                        <h4>🏆 Partilha de Boas Práticas</h4>
+                        <p>Apresentação dos resultados em encontros de boas práticas e conferências educacionais.</p>
+                    </div>
+                </div>
+                                <div style="text-align: center; margin: 20px 0; padding: 20px; background: rgba(30, 60, 114, 0.1); border-radius: 10px;">
+                    <h4 style="color: #1e3c72;">💫 Visão de Longo Prazo</h4>
+                    <p style="font-style: italic; font-size: 1.1em;">
+                        "Criar uma cultura escolar baseada na atenção plena, onde alunos e professores desenvolvem competências para uma vida mais equilibrada e consciente."
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        // Funções JavaScript fornecidas anteriormente
+        function showSection(sectionId, event) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            // Add active class to clicked button if event is passed
+            if (event && event.target) {
+                event.target.classList.add('active');
+            } else { // For initial load
+                const initialButton = document.querySelector(`.nav-btn[onclick*="${sectionId}"]`);
+                if (initialButton) {
+                    initialButton.classList.add('active');
+                }
+            }
+        }
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            // Add click effect to practice items
+            const practiceItems = document.querySelectorAll('.practice-item');
+            practiceItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.animation = 'none';
+                    this.offsetHeight; // Trigger reflow
+                    this.style.animation = 'breathe 1s ease-in-out';
+                });
+            });
+            // Set the first section as active on load
+            showSection('objetivos');
+        });
+    </script>
+</body>
+</html>
+
+
